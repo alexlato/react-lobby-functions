@@ -7,13 +7,9 @@ exports.getColors = functions.https.onRequest(async (request, response) => {
   const userId = request.query.uid;
   if (userId) {
     console.log(`I am fetching the player colors for user ${userId}`);
-    const snapshot = admin
-      .firestore()
-      .collection(users)
-      .doc(`users/${userId}`)
-      .get();
-    const userData = (await snapshot).data();
+    const snapshot = admin.firestore().collection("users").doc(userId).get();
+    const userData = (await snapshot).data().playerColors;
     console.log(userData);
+    response.json(userData);
   }
-  response.send("All done! Check logs!");
 });
