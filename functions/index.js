@@ -13,3 +13,23 @@ exports.getColors = functions.https.onRequest(async (request, response) => {
     response.json(userData);
   }
 });
+
+exports.setColors = functions.https.onRequest(async (request, response) => {
+  const userId = request.query.uid;
+  if (userId) {
+    console.log(`I am setting the player colors for user ${userId}`);
+    const snapshot = admin.firestore().collection("users").doc(userId).get();
+
+    const currentColors = (await snapshot).data().playerColors;
+
+    console.log(currentColors);
+
+    const writeResult = await admin
+      .firestore()
+      .collection("users")
+      .doc(userId)
+      .update({ playerColors: currentColors });
+
+    response.json(writeResult);
+  }
+});
