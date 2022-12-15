@@ -10,6 +10,8 @@ exports.getColors = functions.https.onRequest(async (request, response) => {
     const snapshot = admin.firestore().collection("users").doc(userId).get();
     const userData = (await snapshot).data().playerColors;
     console.log(userData);
+    response.set("Access-Control-Allow-Origin", "*");
+    response.set("Access-Control-Allow-Methods", "GET");
     response.json(userData);
   }
 });
