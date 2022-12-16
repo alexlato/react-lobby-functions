@@ -3,6 +3,17 @@ const admin = require("firebase-admin");
 
 admin.initializeApp(functions.config().firebase);
 
+const cors = require("cors");
+
+exports.addMessage = functions.https.onRequest((req, res) => {
+  const options = {
+    origin: "*",
+  };
+  cors(options)(req, res, () => {
+    return res.json({ status: "ok" });
+  });
+});
+
 exports.getColors = functions.https.onRequest(async (request, response) => {
   const userId = request.query.uid;
   if (userId) {
