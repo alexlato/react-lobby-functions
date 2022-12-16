@@ -4,8 +4,15 @@ const admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
 
 exports.getColors = functions.https.onRequest(async (request, response) => {
-  response.set("Access-Control-Allow-Origin", "*");
-  response.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Origin", "*");
+
+  if (req.method === "OPTIONS") {
+    res.set("Access-Control-Allow-Methods", "GET");
+    res.set("Access-Control-Max-Age", "3600");
+    res.status(204).send("");
+  } else {
+    res.json({ status: "ok" });
+  }
 
   const userId = request.query.uid;
   if (userId) {
@@ -18,8 +25,15 @@ exports.getColors = functions.https.onRequest(async (request, response) => {
 });
 
 exports.setColors = functions.https.onRequest(async (request, response) => {
-  response.set("Access-Control-Allow-Origin", "*");
-  response.set("Access-Control-Allow-Methods", "GET");
+  res.set("Access-Control-Allow-Origin", "*");
+
+  if (req.method === "OPTIONS") {
+    res.set("Access-Control-Allow-Methods", "GET");
+    res.set("Access-Control-Max-Age", "3600");
+    res.status(204).send("");
+  } else {
+    res.json({ status: "ok" });
+  }
 
   const userId = request.query.uid;
   if (userId) {
